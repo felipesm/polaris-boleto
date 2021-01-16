@@ -19,11 +19,6 @@ func InstanciarBoleto(codigo string) Banco {
 	}
 }
 
-// GetBradesco - Bradesco
-func GetBradesco() Bradesco {
-	return Bradesco{}
-}
-
 func retornarFatorVencimento(dataVencimento string) string {
 	fatorVencimento := utils.CalcularFatorVencimento(dataVencimento)
 	return fmt.Sprintf("%04d", fatorVencimento)
