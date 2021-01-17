@@ -68,4 +68,9 @@ func main() {
 
 	fmt.Println("Codigo Barras Santander", cod.CodigoBarrasCompleto)
 
+	linha := banco.GetLinhaDigitavel(cod.CodigoBarrasCompleto)
+
+	fmt.Println("Linha Digitavel", linha.LinhaDigitavel)
+	fmt.Println("Linha Digitavel Formatada", linha.LinhaDigitavelFormatada)
+
 }

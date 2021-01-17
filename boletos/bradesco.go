@@ -60,20 +60,7 @@ func (b *Bradesco) getDVCodigoBarras(codigoBarras CodigoBarras) string {
 
 	codigo := b.retornarCodigoBarrasCompleto(codigoBarras)
 
-	indice := len(codigo)
-	multiplicador := 2
-	var digito int
-	var total int
-
-	for indice >= 1 {
-		digito, _ = strconv.Atoi(string(codigo[indice-1]))
-		total += digito * multiplicador
-		indice--
-		multiplicador++
-		if multiplicador > 9 {
-			multiplicador = 2
-		}
-	}
+	total := getCalculoBaseCodigoBarras(codigo, 2, 9)
 
 	resultado := 11 - (total % 11)
 
@@ -108,4 +95,9 @@ func (b *Bradesco) GetCodigoBarras() CodigoBarras {
 	cod.CodigoBarrasCompleto = b.retornarCodigoBarrasCompleto(cod)
 
 	return cod
+}
+
+// GetLinhaDigitavel - retorna a linha digitável boleto Bradesco
+func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) LinhaDigitavel {
+	return getLinhaDigitavel(codigoBarras, 1, 2, true)
 }

@@ -12,4 +12,5 @@ type Banco interface {
 	getDVCodigoBarras(codigoBarras CodigoBarras) string
 	getCampoLivre() string
 	GetCodigoBarras() CodigoBarras
+	GetLinhaDigitavel(codigoBarras string) LinhaDigitavel
 }

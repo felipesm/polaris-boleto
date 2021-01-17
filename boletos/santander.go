@@ -59,20 +59,7 @@ func (s *Santander) getDVCodigoBarras(codigoBarras CodigoBarras) string {
 
 	codigo := s.retornarCodigoBarrasCompleto(codigoBarras)
 
-	indice := len(codigo)
-	multiplicador := 2
-	var digito int
-	var total int
-
-	for indice >= 1 {
-		digito, _ = strconv.Atoi(string(codigo[indice-1]))
-		total += digito * multiplicador
-		indice--
-		multiplicador++
-		if multiplicador > 9 {
-			multiplicador = 2
-		}
-	}
+	total := getCalculoBaseCodigoBarras(codigo, 2, 9)
 
 	resultado := ((total * 10) % 11)
 
@@ -107,4 +94,9 @@ func (s *Santander) GetCodigoBarras() CodigoBarras {
 	cod.CodigoBarrasCompleto = s.retornarCodigoBarrasCompleto(cod)
 
 	return cod
+}
+
+// GetLinhaDigitavel - retorna a linha digitável boleto Santander
+func (s *Santander) GetLinhaDigitavel(codigoBarras string) LinhaDigitavel {
+	return getLinhaDigitavel(codigoBarras, 1, 2, true)
 }
