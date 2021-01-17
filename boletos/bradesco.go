@@ -42,8 +42,8 @@ func (b *Bradesco) SetCodigoBeneficiario(contaBeneficiario int32) {
 }
 
 // SetFatorVencimento - atribuir fator de vencimento boleto Bradesco
-func (b *Bradesco) SetFatorVencimento(dataVencimento string) {
-	b.fatorVencimento = getFatorVencimento(dataVencimento)
+func (b *Bradesco) SetFatorVencimento(dataVencimento string, zerarVencimento bool) {
+	b.fatorVencimento = getFatorVencimento(dataVencimento, zerarVencimento)
 }
 
 // SetValorBoleto - atribuir valor do boleto Bradesco

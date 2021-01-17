@@ -2,17 +2,35 @@ package utils
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
 )
 
+const formatDate = "2006-01-02"
+
 // CalcularFatorVencimento - calcula o fator de vencimento do boleto
-func CalcularFatorVencimento(data string) int16 {
+func CalcularFatorVencimento(data string, zerarVencimento bool) int16 {
 
-	dataVencimento, _ := time.Parse("2006-01-02", data)
+	var err error
 
-	dataBase, _ := time.Parse("2006-01-02", "1997-10-07")
+	if zerarVencimento {
+		return int16(0)
+	}
+
+	dataVencimento, err := time.Parse(formatDate, data)
+
+	if err != nil {
+		log.Fatal(fmt.Sprintf("Valor %v informado para a data de vencimento é inválida. Deve ser informado no formato yyyy-MM-dd.", data))
+	}
+
+	dataBase, _ := time.Parse(formatDate, "1997-10-07")
+
+	if dataVencimento.Before(dataBase) {
+		log.Fatal(fmt.Sprintf("Data %v é inválida pois é inferior a data base %v", data, "1997-10-07"))
+		return int16(0)
+	}
 
 	dias := dataVencimento.Sub(dataBase).Hours() / 24
 

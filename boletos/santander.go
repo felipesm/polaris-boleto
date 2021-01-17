@@ -41,8 +41,8 @@ func (s *Santander) SetCodigoBeneficiario(codigoCedente int32) {
 }
 
 // SetFatorVencimento - atribuir fator de vencimento boleto Santander
-func (s *Santander) SetFatorVencimento(dataVencimento string) {
-	s.fatorVencimento = getFatorVencimento(dataVencimento)
+func (s *Santander) SetFatorVencimento(dataVencimento string, zerarVencimento bool) {
+	s.fatorVencimento = getFatorVencimento(dataVencimento, zerarVencimento)
 }
 
 // SetValorBoleto - atribuir valor do boleto Santander

@@ -8,9 +8,6 @@ import (
 	"github.com/polaris-boleto/utils"
 )
 
-// CodigoMoeda - código da moeda
-const CodigoMoeda string = "9"
-
 // InstanciarBoleto - retorna a instância de um boleto
 func InstanciarBoleto(codigo string) Banco {
 
@@ -24,13 +21,8 @@ func InstanciarBoleto(codigo string) Banco {
 	}
 }
 
-func retornarFatorVencimento(dataVencimento string) string {
-	fatorVencimento := utils.CalcularFatorVencimento(dataVencimento)
-	return fmt.Sprintf("%04d", fatorVencimento)
-}
-
-func getFatorVencimento(dataVencimento string) string {
-	fatorVencimento := utils.CalcularFatorVencimento(dataVencimento)
+func getFatorVencimento(dataVencimento string, zerarVencimento bool) string {
+	fatorVencimento := utils.CalcularFatorVencimento(dataVencimento, zerarVencimento)
 	return fmt.Sprintf("%04d", fatorVencimento)
 }
 

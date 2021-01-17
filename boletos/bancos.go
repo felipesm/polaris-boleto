@@ -6,7 +6,7 @@ type Banco interface {
 	SetAgencia(agencia int32)
 	SetCarteira(carteira int8)
 	SetCodigoBeneficiario(contaBeneficiario int32)
-	SetFatorVencimento(dataVencimento string)
+	SetFatorVencimento(dataVencimento string, zerarVencimento bool)
 	SetValorBoleto(valor float64)
 	SetNossoNumero(nossoNumero string)
 	getDVCodigoBarras(codigoBarras CodigoBarras) string
