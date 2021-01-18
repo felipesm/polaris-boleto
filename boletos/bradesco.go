@@ -41,14 +41,20 @@ func (b *Bradesco) SetCodigoBeneficiario(contaBeneficiario int32) {
 	b.contaBeneficiario = fmt.Sprintf("%07d", contaBeneficiario)
 }
 
-// SetFatorVencimento - atribuir fator de vencimento boleto Bradesco
+/*
+SetFatorVencimento - atribuir fator de vencimento boleto Bradesco.
+O "zerarVencimento" indica se o vencimento deve vir zerado no código de barras e linha digitável.
+*/
 func (b *Bradesco) SetFatorVencimento(dataVencimento string, zerarVencimento bool) {
 	b.fatorVencimento = getFatorVencimento(dataVencimento, zerarVencimento)
 }
 
-// SetValorBoleto - atribuir valor do boleto Bradesco
-func (b *Bradesco) SetValorBoleto(valor float64) {
-	b.valor = getValorBoleto(valor)
+/*
+SetValorBoleto - atribuir valor boleto Bradesco.
+O "zerarValor" (bool) indica se o valor do boleto deve vir zerado no código de barras e linha digitável.
+*/
+func (b *Bradesco) SetValorBoleto(valor float64, zerarValor bool) {
+	b.valor = getValorBoleto(valor, zerarValor)
 }
 
 // SetNossoNumero - atribuir valor do nosso número (sem dv) boleto Bradesco

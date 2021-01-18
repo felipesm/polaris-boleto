@@ -40,14 +40,20 @@ func (s *Santander) SetCodigoBeneficiario(codigoCedente int32) {
 	s.codigoCedente = fmt.Sprintf("%07d", codigoCedente)
 }
 
-// SetFatorVencimento - atribuir fator de vencimento boleto Santander
+/*
+SetFatorVencimento - atribuir fator de vencimento boleto Santander.
+O "zerarVencimento" indica se o vencimento deve vir zerado no código de barras e linha digitável.
+*/
 func (s *Santander) SetFatorVencimento(dataVencimento string, zerarVencimento bool) {
 	s.fatorVencimento = getFatorVencimento(dataVencimento, zerarVencimento)
 }
 
-// SetValorBoleto - atribuir valor do boleto Santander
-func (s *Santander) SetValorBoleto(valor float64) {
-	s.valor = getValorBoleto(valor)
+/*
+SetValorBoleto - atribuir valor boleto Santander.
+O "zerarValor" (bool) indica se o valor do boleto deve vir zerado no código de barras e linha digitável.
+*/
+func (s *Santander) SetValorBoleto(valor float64, zerarValor bool) {
+	s.valor = getValorBoleto(valor, zerarValor)
 }
 
 // SetNossoNumero - atribuir valor do nosso número boleto Santander

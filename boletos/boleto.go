@@ -26,8 +26,8 @@ func getFatorVencimento(dataVencimento string, zerarVencimento bool) string {
 	return fmt.Sprintf("%04d", fatorVencimento)
 }
 
-func getValorBoleto(valor float64) string {
-	return utils.FormatarValorBoleto(valor, 10)
+func getValorBoleto(valor float64, zerarValor bool) string {
+	return utils.FormatarValorBoleto(valor, 10, zerarValor)
 }
 
 func getNossoNumero(nossoNumero string, tamanho int) string {

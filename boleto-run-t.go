@@ -12,7 +12,7 @@ func main() {
 	var dataVenc string
 	var zerarVenc bool
 	var valor float64
-	// var zerarValor bool
+	var zerarValor bool
 	var carteira int8
 	var cod boletos.CodigoBarras
 	var banco boletos.Banco
@@ -28,7 +28,7 @@ func main() {
 	dataVenc = "1997-10-02"
 	zerarVenc = true
 	valor = 1248.79
-	// zerarValor = false
+	zerarValor = false
 	carteira = 26
 	ag = 3381
 	codBeneficiario = 5331
@@ -41,7 +41,7 @@ func main() {
 	banco.SetAgencia(ag)
 	banco.SetCarteira(carteira)
 	banco.SetFatorVencimento(dataVenc, zerarVenc)
-	banco.SetValorBoleto(valor)
+	banco.SetValorBoleto(valor, zerarValor)
 	banco.SetNossoNumero(nossoNumero)
 	banco.SetCodigoBeneficiario(codBeneficiario)
 

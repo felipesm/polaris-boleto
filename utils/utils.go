@@ -38,8 +38,15 @@ func CalcularFatorVencimento(data string, zerarVencimento bool) int16 {
 }
 
 // FormatarValorBoleto - formata o valor do boleto preenchendo com zeros a esquerda
-func FormatarValorBoleto(valor float64, tamanho int) string {
-	valorBoleto := fmt.Sprintf("%.2f", valor)
+func FormatarValorBoleto(valor float64, tamanho int, zerarValor bool) string {
+
+	var valorBoleto string
+
+	if zerarValor {
+		return strings.Repeat("0", tamanho)
+	}
+
+	valorBoleto = fmt.Sprintf("%.2f", valor)
 	valorBoleto = strings.Replace(valorBoleto, ".", "", -1)
 	valorBoleto = strings.Repeat("0", tamanho-len(valorBoleto)) + valorBoleto
 	return valorBoleto
