@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// Santander - estrutura para representar o banco Santander
+// Santander - estrutura para representar o boleto Santander
 type Santander struct {
 	codigoSantander string // 01 a 03 - identificacao do banco
 	codigoMoeda     string // 04 a 04 - codigo da moeda (real = 9 | outros = 0)
@@ -50,13 +50,13 @@ func (s *Santander) SetFatorVencimento(dataVencimento string, zerarVencimento bo
 
 /*
 SetValorBoleto - atribuir valor boleto Santander.
-O "zerarValor" (bool) indica se o valor do boleto deve vir zerado no código de barras e linha digitável.
+O "zerarValor" indica se o valor do boleto deve vir zerado no código de barras e linha digitável.
 */
 func (s *Santander) SetValorBoleto(valor float64, zerarValor bool) {
 	s.valor = getValorBoleto(valor, zerarValor)
 }
 
-// SetNossoNumero - atribuir valor do nosso número boleto Santander
+// SetNossoNumero - atribuir nosso número boleto Santander
 func (s *Santander) SetNossoNumero(nossoNumero string) {
 	s.nossoNumero = getNossoNumero(nossoNumero, 13)
 }
@@ -85,7 +85,7 @@ func (s *Santander) retornarCodigoBarrasCompleto(cod CodigoBarras) string {
 	return fmt.Sprintf("%s%s%s%s%s%s", cod.CodigoBanco, cod.CodigoMoeda, cod.DV, cod.FatorVencimento, cod.Valor, cod.CampoLivre)
 }
 
-// GetCodigoBarras - retorna o código de barras para o banco Santander
+// GetCodigoBarras - retorna código de barras boleto Santander
 func (s *Santander) GetCodigoBarras() CodigoBarras {
 
 	cod := CodigoBarras{
@@ -102,7 +102,7 @@ func (s *Santander) GetCodigoBarras() CodigoBarras {
 	return cod
 }
 
-// GetLinhaDigitavel - retorna a linha digitável boleto Santander
+// GetLinhaDigitavel - retorna linha digitável boleto Santander
 func (s *Santander) GetLinhaDigitavel(codigoBarras string) LinhaDigitavel {
 	return getLinhaDigitavel(codigoBarras, 1, 2, true)
 }

@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// Bradesco - estrutura para representar o banco Bradesco
+// Bradesco - estrutura para representar o boleto Bradesco
 type Bradesco struct {
 	codigoBradesco    string // 01 a 03 - identificacao do banco
 	codigoMoeda       string // 04 a 04 - codigo da moeda (real = 9 | outros = 0)
@@ -51,13 +51,13 @@ func (b *Bradesco) SetFatorVencimento(dataVencimento string, zerarVencimento boo
 
 /*
 SetValorBoleto - atribuir valor boleto Bradesco.
-O "zerarValor" (bool) indica se o valor do boleto deve vir zerado no código de barras e linha digitável.
+O "zerarValor" indica se o valor do boleto deve vir zerado no código de barras e linha digitável.
 */
 func (b *Bradesco) SetValorBoleto(valor float64, zerarValor bool) {
 	b.valor = getValorBoleto(valor, zerarValor)
 }
 
-// SetNossoNumero - atribuir valor do nosso número (sem dv) boleto Bradesco
+// SetNossoNumero - atribuir nosso número boleto Bradesco
 func (b *Bradesco) SetNossoNumero(nossoNumero string) {
 	b.nossoNumero = getNossoNumero(nossoNumero, 11)
 }
@@ -86,10 +86,10 @@ func (b *Bradesco) retornarCodigoBarrasCompleto(cod CodigoBarras) string {
 	return fmt.Sprintf("%s%s%s%s%s%s", cod.CodigoBanco, cod.CodigoMoeda, cod.DV, cod.FatorVencimento, cod.Valor, cod.CampoLivre)
 }
 
-// GetCodigoBarras - retorna objeto código de barras boleto Bradesco
+// GetCodigoBarras - retorna código de barras boleto Bradesco
 func (b *Bradesco) GetCodigoBarras() CodigoBarras {
 
-	cod := CodigoBarras{
+	codigo := CodigoBarras{
 		CodigoBanco:     b.codigoBradesco,
 		CodigoMoeda:     "9",
 		FatorVencimento: b.fatorVencimento,
@@ -97,13 +97,13 @@ func (b *Bradesco) GetCodigoBarras() CodigoBarras {
 		CampoLivre:      b.getCampoLivre(),
 	}
 
-	cod.DV = b.getDVCodigoBarras(cod)
-	cod.CodigoBarrasCompleto = b.retornarCodigoBarrasCompleto(cod)
+	codigo.DV = b.getDVCodigoBarras(codigo)
+	codigo.CodigoBarrasCompleto = b.retornarCodigoBarrasCompleto(codigo)
 
-	return cod
+	return codigo
 }
 
-// GetLinhaDigitavel - retorna a linha digitável boleto Bradesco
+// GetLinhaDigitavel - retorna linha digitável boleto Bradesco
 func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) LinhaDigitavel {
 	return getLinhaDigitavel(codigoBarras, 1, 2, true)
 }

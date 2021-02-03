@@ -25,14 +25,14 @@ func main() {
 	*/
 
 	codBanco = "237"
-	dataVenc = "1997-10-02"
-	zerarVenc = true
 	valor = 1248.79
-	zerarValor = false
+	dataVenc = "2007-10-02"
 	carteira = 26
-	ag = 3381
-	codBeneficiario = 5331
 	nossoNumero = "503154617"
+	codBeneficiario = 5331
+	zerarVenc = true
+	zerarValor = false
+	ag = 3381
 
 	fmt.Printf("Cod: %s - Valor R$: %.2f - Agencia: %d - Cart: %d - Cod Ben: %d - Número: %s\n\n", codBanco, valor, ag, carteira, codBeneficiario, nossoNumero)
 
@@ -51,8 +51,8 @@ func main() {
 
 	// codBanco = "033"
 	// valor = 80.55
-	// carteira = 104
 	// dataVenc = "2012-11-26"
+	// carteira = 104
 	// nossoNumero = "0000000000027"
 	// codBeneficiario = int32(5276543)
 

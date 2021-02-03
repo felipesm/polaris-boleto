@@ -2,6 +2,7 @@ package boletos
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
@@ -17,6 +18,7 @@ func InstanciarBoleto(codigo string) Banco {
 	case codigo == "033":
 		return &Santander{}
 	default:
+		log.Fatal(fmt.Sprintf("Código de banco %s inválido", codigo))
 		return nil
 	}
 }
