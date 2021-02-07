@@ -2,6 +2,7 @@ package boletos
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 )
 
@@ -104,6 +105,17 @@ func (b *Bradesco) GetCodigoBarras() CodigoBarras {
 }
 
 // GetLinhaDigitavel - retorna linha digitável boleto Bradesco
-func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) LinhaDigitavel {
-	return getLinhaDigitavel(codigoBarras, 1, 2, true)
+func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro) {
+
+	var linha LinhaDigitavel
+	var erro Erro
+
+	if len(codigoBarras) != 44 {
+		erro = codigoBarrasInvalido(codigoBarras)
+		log.Println(erro.Mensagem)
+		return linha, erro
+	}
+
+	linha = getLinhaDigitavel(codigoBarras, 1, 2, true)
+	return linha, erro
 }

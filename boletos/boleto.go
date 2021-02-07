@@ -10,16 +10,19 @@ import (
 )
 
 // InstanciarBoleto - retorna a instância de um boleto
-func InstanciarBoleto(codigo string) Banco {
+func InstanciarBoleto(codigo string) (Banco, Erro) {
+
+	var erro Erro
 
 	switch {
 	case codigo == "237":
-		return &Bradesco{}
+		return &Bradesco{}, erro
 	case codigo == "033":
-		return &Santander{}
+		return &Santander{}, erro
 	default:
-		log.Fatal(fmt.Sprintf("Código de banco %s inválido", codigo))
-		return nil
+		erro = codigoBancoInvalido(codigo)
+		log.Println(erro.Mensagem)
+		return nil, erro
 	}
 }
 

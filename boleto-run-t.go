@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/polaris-boleto/boletos"
 )
@@ -19,12 +20,13 @@ func main() {
 	var codBeneficiario int32
 	var ag int32
 	var nossoNumero string
+	var erro boletos.Erro
 
 	/*
 		Bradesco - testes
 	*/
 
-	codBanco = "237"
+	codBanco = "137"
 	valor = 1248.79
 	dataVenc = "2007-10-02"
 	carteira = 26
@@ -36,7 +38,12 @@ func main() {
 
 	fmt.Printf("Cod: %s - Valor R$: %.2f - Agencia: %d - Cart: %d - Cod Ben: %d - Número: %s\n\n", codBanco, valor, ag, carteira, codBeneficiario, nossoNumero)
 
-	banco = boletos.InstanciarBoleto(codBanco)
+	banco, erro = boletos.InstanciarBoleto(codBanco)
+
+	if erro.Status != 0 {
+		log.Fatal("Simulando API: ", erro.Mensagem)
+	}
+
 	banco.SetCodigo()
 	banco.SetAgencia(ag)
 	banco.SetCarteira(carteira)
@@ -72,7 +79,11 @@ func main() {
 
 	fmt.Println("Codigo Barras", cod.CodigoBarrasCompleto)
 
-	linha := banco.GetLinhaDigitavel(cod.CodigoBarrasCompleto)
+	linha, erro2 := banco.GetLinhaDigitavel(cod.CodigoBarrasCompleto + "2")
+
+	if erro2.Status != 0 {
+		log.Fatal("Simulando API: ", erro2.Mensagem)
+	}
 
 	fmt.Println("Linha Digitavel", linha.LinhaDigitavel)
 	fmt.Println("Linha Digitavel Formatada", linha.LinhaDigitavelFormatada)

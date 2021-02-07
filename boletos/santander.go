@@ -2,6 +2,7 @@ package boletos
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 )
 
@@ -103,6 +104,17 @@ func (s *Santander) GetCodigoBarras() CodigoBarras {
 }
 
 // GetLinhaDigitavel - retorna linha digitável boleto Santander
-func (s *Santander) GetLinhaDigitavel(codigoBarras string) LinhaDigitavel {
-	return getLinhaDigitavel(codigoBarras, 1, 2, true)
+func (s *Santander) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro) {
+
+	var linha LinhaDigitavel
+	var erro Erro
+
+	if len(codigoBarras) != 44 {
+		erro = codigoBarrasInvalido(codigoBarras)
+		log.Println(erro.Mensagem)
+		return linha, erro
+	}
+
+	linha = getLinhaDigitavel(codigoBarras, 1, 2, true)
+	return linha, erro
 }
