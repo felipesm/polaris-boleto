@@ -14,34 +14,36 @@ func main() {
 	var zerarVenc bool
 	var valor float64
 	var zerarValor bool
-	var carteira int8
-	var cod boletos.CodigoBarras
+	var carteira int16
 	var banco boletos.Banco
 	var codBeneficiario int32
 	var ag int32
 	var nossoNumero string
+
+	var cod boletos.CodigoBarras
+	var linha boletos.LinhaDigitavel
 	var erro boletos.Erro
 
 	/*
 		Bradesco - testes
 	*/
 
-	codBanco = "137"
+	codBanco = "237"
 	valor = 1248.79
-	dataVenc = "2007-10-02"
+	dataVenc = "1997-10-09"
 	carteira = 26
-	nossoNumero = "503154617"
+	nossoNumero = "30503154617"
 	codBeneficiario = 5331
-	zerarVenc = true
+	zerarVenc = false
 	zerarValor = false
 	ag = 3381
 
-	fmt.Printf("Cod: %s - Valor R$: %.2f - Agencia: %d - Cart: %d - Cod Ben: %d - Número: %s\n\n", codBanco, valor, ag, carteira, codBeneficiario, nossoNumero)
+	// fmt.Printf("Cod: %s - Valor R$: %.2f - Agencia: %d - Cart: %d - Cod Ben: %d - Número: %s\n\n", codBanco, valor, ag, carteira, codBeneficiario, nossoNumero)
 
 	banco, erro = boletos.InstanciarBoleto(codBanco)
 
 	if erro.Status != 0 {
-		log.Fatal("Simulando API: ", erro.Mensagem)
+		log.Fatal("Simulando Erro 1 API: ", erro.Mensagem)
 	}
 
 	banco.SetCodigo()
@@ -63,8 +65,6 @@ func main() {
 	// nossoNumero = "0000000000027"
 	// codBeneficiario = int32(5276543)
 
-	// fmt.Printf("\nCod: %s - Valor R$: %.2f - Cart: %d - Cod Ben: %d - Número: %s\n\n", codBanco, valor, carteira, codBeneficiario, nossoNumero)
-
 	// banco = boletos.InstanciarBoleto(codBanco)
 	// banco.SetCodigo()
 	// banco.SetFatorVencimento(dataVenc)
@@ -73,16 +73,18 @@ func main() {
 	// banco.SetNossoNumero(nossoNumero)
 	// banco.SetCarteira(carteira)
 
-	cod = banco.GetCodigoBarras()
+	cod, erro = banco.GetCodigoBarras()
 
-	// fmt.Printf("Cod: %s - Valor R$: %s - Campo Livre: %s\n\n", cod.CodigoBanco, cod.Valor, cod.CampoLivre)
+	if erro.Status != 0 {
+		log.Fatal("Erro 1: ", erro.Mensagem)
+	}
 
-	fmt.Println("Codigo Barras", cod.CodigoBarrasCompleto)
+	fmt.Println("Codigo Barras -> ", cod.CodigoBarrasCompleto)
 
-	linha, erro2 := banco.GetLinhaDigitavel(cod.CodigoBarrasCompleto + "2")
+	linha, erro = banco.GetLinhaDigitavel(cod.CodigoBarrasCompleto)
 
-	if erro2.Status != 0 {
-		log.Fatal("Simulando API: ", erro2.Mensagem)
+	if erro.Status != 0 {
+		log.Fatal("Erro 2: ", erro.Mensagem)
 	}
 
 	fmt.Println("Linha Digitavel", linha.LinhaDigitavel)

@@ -33,7 +33,7 @@ func (b *Bradesco) SetAgencia(agencia int32) {
 }
 
 // SetCarteira - atribuir código carteira boleto Bradesco
-func (b *Bradesco) SetCarteira(carteira int8) {
+func (b *Bradesco) SetCarteira(carteira int16) {
 	b.carteira = fmt.Sprintf("%02d", carteira)
 }
 
@@ -66,9 +66,7 @@ func (b *Bradesco) SetNossoNumero(nossoNumero string) {
 func (b *Bradesco) getDVCodigoBarras(codigoBarras CodigoBarras) string {
 
 	codigo := b.retornarCodigoBarrasCompleto(codigoBarras)
-
 	total := getCalculoBaseCodigoBarras(codigo, 2, 9)
-
 	resultado := 11 - (total % 11)
 
 	if resultado == 0 || resultado == 1 || resultado > 9 {
@@ -83,12 +81,11 @@ func (b *Bradesco) getCampoLivre() string {
 }
 
 func (b *Bradesco) retornarCodigoBarrasCompleto(cod CodigoBarras) string {
-
 	return fmt.Sprintf("%s%s%s%s%s%s", cod.CodigoBanco, cod.CodigoMoeda, cod.DV, cod.FatorVencimento, cod.Valor, cod.CampoLivre)
 }
 
 // GetCodigoBarras - retorna código de barras boleto Bradesco
-func (b *Bradesco) GetCodigoBarras() CodigoBarras {
+func (b *Bradesco) GetCodigoBarras() (CodigoBarras, Erro) {
 
 	codigo := CodigoBarras{
 		CodigoBanco:     b.codigoBradesco,
@@ -98,10 +95,17 @@ func (b *Bradesco) GetCodigoBarras() CodigoBarras {
 		CampoLivre:      b.getCampoLivre(),
 	}
 
-	codigo.DV = b.getDVCodigoBarras(codigo)
-	codigo.CodigoBarrasCompleto = b.retornarCodigoBarrasCompleto(codigo)
+	erro := b.validarDados()
 
-	return codigo
+	if erro.Status != 0 {
+		codigo.DV = ""
+		codigo.CodigoBarrasCompleto = ""
+	} else {
+		codigo.DV = b.getDVCodigoBarras(codigo)
+		codigo.CodigoBarrasCompleto = b.retornarCodigoBarrasCompleto(codigo)
+	}
+
+	return codigo, erro
 }
 
 // GetLinhaDigitavel - retorna linha digitável boleto Bradesco
@@ -118,4 +122,35 @@ func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro)
 
 	linha = getLinhaDigitavel(codigoBarras, 1, 2, true)
 	return linha, erro
+}
+
+func (b *Bradesco) validarDados() Erro {
+
+	var erro Erro
+
+	if len(b.agencia) != 4 {
+		erro = agenciaInvalida(b.agencia, 4)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
+	}
+
+	if len(b.carteira) != 2 {
+		erro = carteiraInvalida(b.carteira, 2)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
+	}
+
+	if len(b.contaBeneficiario) != 7 {
+		erro = codigoBeneficiarioInvalido(b.contaBeneficiario, 7)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
+	}
+
+	if len(b.nossoNumero) != 11 {
+		erro = nossoNumeroInvalido(b.nossoNumero, 11)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
+	}
+
+	return erro
 }

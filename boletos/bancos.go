@@ -4,13 +4,14 @@ package boletos
 type Banco interface {
 	SetCodigo()
 	SetAgencia(agencia int32)
-	SetCarteira(carteira int8)
+	SetCarteira(carteira int16)
 	SetCodigoBeneficiario(contaBeneficiario int32)
 	SetFatorVencimento(dataVencimento string, zerarVencimento bool)
 	SetValorBoleto(valor float64, zerarValor bool)
 	SetNossoNumero(nossoNumero string)
 	getDVCodigoBarras(codigoBarras CodigoBarras) string
 	getCampoLivre() string
-	GetCodigoBarras() CodigoBarras
+	validarDados() Erro
+	GetCodigoBarras() (CodigoBarras, Erro)
 	GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro)
 }

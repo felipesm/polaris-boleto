@@ -22,13 +22,13 @@ func CalcularFatorVencimento(data string, zerarVencimento bool) int16 {
 	dataVencimento, err := time.Parse(formatDate, data)
 
 	if err != nil {
-		log.Fatal(fmt.Sprintf("Valor %v informado para a data de vencimento é inválida. Deve ser informado no formato yyyy-MM-dd.", data))
+		log.Println(fmt.Sprintf("Valor %v informado para a data de vencimento é inválida. Deve ser informado no formato yyyy-MM-dd.", data))
 	}
 
 	dataBase, _ := time.Parse(formatDate, "1997-10-07")
 
 	if dataVencimento.Before(dataBase) {
-		log.Fatal(fmt.Sprintf("Data %v é inválida pois é inferior a data base %v", data, "1997-10-07"))
+		log.Println(fmt.Sprintf("Data %v é inválida pois é inferior a data base 1997-10-07.", data))
 		return int16(0)
 	}
 
@@ -54,6 +54,11 @@ func FormatarValorBoleto(valor float64, tamanho int, zerarValor bool) string {
 
 // FormatarNossoNumero - formata o nosso número preenchendo com zeros a esquerda
 func FormatarNossoNumero(nossoNumero string, tamanho int) string {
+
+	if len(nossoNumero) > tamanho {
+		return nossoNumero
+	}
+
 	return strings.Repeat("0", tamanho-len(nossoNumero)) + nossoNumero
 }
 

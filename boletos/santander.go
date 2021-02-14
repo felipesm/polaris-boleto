@@ -32,7 +32,7 @@ func (s *Santander) SetAgencia(agencia int32) {
 }
 
 // SetCarteira - atribuir código carteira boleto Santander
-func (s *Santander) SetCarteira(carteira int8) {
+func (s *Santander) SetCarteira(carteira int16) {
 	s.carteira = fmt.Sprintf("%03d", carteira)
 }
 
@@ -87,9 +87,9 @@ func (s *Santander) retornarCodigoBarrasCompleto(cod CodigoBarras) string {
 }
 
 // GetCodigoBarras - retorna código de barras boleto Santander
-func (s *Santander) GetCodigoBarras() CodigoBarras {
+func (s *Santander) GetCodigoBarras() (CodigoBarras, Erro) {
 
-	cod := CodigoBarras{
+	codigo := CodigoBarras{
 		CodigoBanco:     s.codigoSantander,
 		CodigoMoeda:     "9",
 		FatorVencimento: s.fatorVencimento,
@@ -97,10 +97,17 @@ func (s *Santander) GetCodigoBarras() CodigoBarras {
 		CampoLivre:      s.getCampoLivre(),
 	}
 
-	cod.DV = s.getDVCodigoBarras(cod)
-	cod.CodigoBarrasCompleto = s.retornarCodigoBarrasCompleto(cod)
+	erro := s.validarDados()
 
-	return cod
+	if erro.Status != 0 {
+		codigo.DV = ""
+		codigo.CodigoBarrasCompleto = ""
+	} else {
+		codigo.DV = s.getDVCodigoBarras(codigo)
+		codigo.CodigoBarrasCompleto = s.retornarCodigoBarrasCompleto(codigo)
+	}
+
+	return codigo, erro
 }
 
 // GetLinhaDigitavel - retorna linha digitável boleto Santander
@@ -117,4 +124,23 @@ func (s *Santander) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro
 
 	linha = getLinhaDigitavel(codigoBarras, 1, 2, true)
 	return linha, erro
+}
+
+func (s *Santander) validarDados() Erro {
+
+	var erro Erro
+
+	if len(s.carteira) != 3 {
+		return carteiraInvalida(s.carteira, 3)
+	}
+
+	if len(s.codigoCedente) != 7 {
+		return codigoBeneficiarioInvalido(s.codigoCedente, 7)
+	}
+
+	if len(s.nossoNumero) != 13 {
+		return nossoNumeroInvalido(s.nossoNumero, 13)
+	}
+
+	return erro
 }
