@@ -28,10 +28,10 @@ func main() {
 		Bradesco - testes
 	*/
 
-	codBanco = "237"
+	codBanco = "033"
 	valor = 1248.79
 	dataVenc = "1997-10-09"
-	carteira = 26
+	carteira = 266
 	nossoNumero = "30503154617"
 	codBeneficiario = 5331
 	zerarVenc = false

@@ -131,15 +131,21 @@ func (s *Santander) validarDados() Erro {
 	var erro Erro
 
 	if len(s.carteira) != 3 {
-		return carteiraInvalida(s.carteira, 3)
+		erro = carteiraInvalida(s.carteira, 3)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
 	}
 
 	if len(s.codigoCedente) != 7 {
-		return codigoBeneficiarioInvalido(s.codigoCedente, 7)
+		erro = codigoBeneficiarioInvalido(s.codigoCedente, 7)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
 	}
 
 	if len(s.nossoNumero) != 13 {
-		return nossoNumeroInvalido(s.nossoNumero, 13)
+		erro = nossoNumeroInvalido(s.nossoNumero, 13)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
 	}
 
 	return erro
