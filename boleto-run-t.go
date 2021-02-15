@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/polaris-boleto/boletos"
+	errorutil "github.com/polaris-boleto/erro"
 )
 
 func main() {
@@ -22,21 +23,21 @@ func main() {
 
 	var cod boletos.CodigoBarras
 	var linha boletos.LinhaDigitavel
-	var erro boletos.Erro
+	var erro errorutil.Erro
 
 	/*
 		Bradesco - testes
 	*/
 
 	codBanco = "033"
-	valor = 1248.79
+	ag = 3381
+	carteira = 26
 	dataVenc = "1997-10-09"
-	carteira = 266
+	valor = 1248.79
 	nossoNumero = "30503154617"
 	codBeneficiario = 5331
-	zerarVenc = false
-	zerarValor = false
-	ag = 3381
+	zerarVenc = true
+	zerarValor = true
 
 	// fmt.Printf("Cod: %s - Valor R$: %.2f - Agencia: %d - Cart: %d - Cod Ben: %d - Número: %s\n\n", codBanco, valor, ag, carteira, codBeneficiario, nossoNumero)
 
@@ -59,19 +60,19 @@ func main() {
 	*/
 
 	// codBanco = "033"
-	// valor = 80.55
-	// dataVenc = "2012-11-26"
 	// carteira = 104
+	// dataVenc = "2012-11-26"
+	// valor = 80.55
 	// nossoNumero = "0000000000027"
 	// codBeneficiario = int32(5276543)
 
 	// banco = boletos.InstanciarBoleto(codBanco)
 	// banco.SetCodigo()
+	// banco.SetCarteira(carteira)
 	// banco.SetFatorVencimento(dataVenc)
 	// banco.SetValorBoleto(valor)
-	// banco.SetCodigoBeneficiario(codBeneficiario)
 	// banco.SetNossoNumero(nossoNumero)
-	// banco.SetCarteira(carteira)
+	// banco.SetCodigoBeneficiario(codBeneficiario)
 
 	cod, erro = banco.GetCodigoBarras()
 

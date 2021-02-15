@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+
+	errorutil "github.com/polaris-boleto/erro"
 )
 
 // Bradesco - estrutura para representar o boleto Bradesco
@@ -85,7 +87,7 @@ func (b *Bradesco) retornarCodigoBarrasCompleto(cod CodigoBarras) string {
 }
 
 // GetCodigoBarras - retorna código de barras boleto Bradesco
-func (b *Bradesco) GetCodigoBarras() (CodigoBarras, Erro) {
+func (b *Bradesco) GetCodigoBarras() (CodigoBarras, errorutil.Erro) {
 
 	codigo := CodigoBarras{
 		CodigoBanco:     b.codigoBradesco,
@@ -109,13 +111,13 @@ func (b *Bradesco) GetCodigoBarras() (CodigoBarras, Erro) {
 }
 
 // GetLinhaDigitavel - retorna linha digitável boleto Bradesco
-func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro) {
+func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, errorutil.Erro) {
 
 	var linha LinhaDigitavel
-	var erro Erro
+	var erro errorutil.Erro
 
 	if len(codigoBarras) != 44 {
-		erro = codigoBarrasInvalido(codigoBarras)
+		erro = errorutil.CodigoBarrasInvalido(codigoBarras)
 		log.Println(erro.Mensagem)
 		return linha, erro
 	}
@@ -124,30 +126,36 @@ func (b *Bradesco) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro)
 	return linha, erro
 }
 
-func (b *Bradesco) validarDados() Erro {
+func (b *Bradesco) validarDados() errorutil.Erro {
 
-	var erro Erro
+	var erro errorutil.Erro
 
 	if len(b.agencia) != 4 {
-		erro = agenciaInvalida(b.agencia, 4)
+		erro = errorutil.AgenciaInvalida(b.agencia, 4)
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}
 
 	if len(b.carteira) != 2 {
-		erro = carteiraInvalida(b.carteira, 2)
+		erro = errorutil.CarteiraInvalida(b.carteira, 2)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
+	}
+
+	if b.fatorVencimento == "0" {
+		erro = errorutil.VencimentoInvalido()
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}
 
 	if len(b.contaBeneficiario) != 7 {
-		erro = codigoBeneficiarioInvalido(b.contaBeneficiario, 7)
+		erro = errorutil.CodigoBeneficiarioInvalido(b.contaBeneficiario, 7)
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}
 
 	if len(b.nossoNumero) != 11 {
-		erro = nossoNumeroInvalido(b.nossoNumero, 11)
+		erro = errorutil.NossoNumeroInvalido(b.nossoNumero, 11)
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}

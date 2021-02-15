@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+
+	errorutil "github.com/polaris-boleto/erro"
 )
 
 // Santander - estrutura para representar o boleto Santander
@@ -87,7 +89,7 @@ func (s *Santander) retornarCodigoBarrasCompleto(cod CodigoBarras) string {
 }
 
 // GetCodigoBarras - retorna código de barras boleto Santander
-func (s *Santander) GetCodigoBarras() (CodigoBarras, Erro) {
+func (s *Santander) GetCodigoBarras() (CodigoBarras, errorutil.Erro) {
 
 	codigo := CodigoBarras{
 		CodigoBanco:     s.codigoSantander,
@@ -111,13 +113,13 @@ func (s *Santander) GetCodigoBarras() (CodigoBarras, Erro) {
 }
 
 // GetLinhaDigitavel - retorna linha digitável boleto Santander
-func (s *Santander) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro) {
+func (s *Santander) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, errorutil.Erro) {
 
 	var linha LinhaDigitavel
-	var erro Erro
+	var erro errorutil.Erro
 
 	if len(codigoBarras) != 44 {
-		erro = codigoBarrasInvalido(codigoBarras)
+		erro = errorutil.CodigoBarrasInvalido(codigoBarras)
 		log.Println(erro.Mensagem)
 		return linha, erro
 	}
@@ -126,24 +128,30 @@ func (s *Santander) GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro
 	return linha, erro
 }
 
-func (s *Santander) validarDados() Erro {
+func (s *Santander) validarDados() errorutil.Erro {
 
-	var erro Erro
+	var erro errorutil.Erro
 
 	if len(s.carteira) != 3 {
-		erro = carteiraInvalida(s.carteira, 3)
+		erro = errorutil.CarteiraInvalida(s.carteira, 3)
+		log.Println("Erro:", erro.Mensagem)
+		return erro
+	}
+
+	if s.fatorVencimento == "0" {
+		erro = errorutil.VencimentoInvalido()
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}
 
 	if len(s.codigoCedente) != 7 {
-		erro = codigoBeneficiarioInvalido(s.codigoCedente, 7)
+		erro = errorutil.CodigoBeneficiarioInvalido(s.codigoCedente, 7)
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}
 
 	if len(s.nossoNumero) != 13 {
-		erro = nossoNumeroInvalido(s.nossoNumero, 13)
+		erro = errorutil.NossoNumeroInvalido(s.nossoNumero, 13)
 		log.Println("Erro:", erro.Mensagem)
 		return erro
 	}

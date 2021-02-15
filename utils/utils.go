@@ -6,35 +6,42 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	errorutil "github.com/polaris-boleto/erro"
 )
 
 const formatDate = "2006-01-02"
 
 // CalcularFatorVencimento - calcula o fator de vencimento do boleto
-func CalcularFatorVencimento(data string, zerarVencimento bool) int16 {
+func CalcularFatorVencimento(data string, zerarVencimento bool) (int16, errorutil.Erro) {
 
-	var err error
+	var erro errorutil.Erro
 
 	if zerarVencimento {
-		return int16(0)
+		return int16(0), erro
 	}
 
 	dataVencimento, err := time.Parse(formatDate, data)
 
 	if err != nil {
-		log.Println(fmt.Sprintf("Valor %v informado para a data de vencimento é inválida. Deve ser informado no formato yyyy-MM-dd.", data))
+		msg := fmt.Sprintf("Valor %v informado para a data de vencimento é inválida. Deve ser informado no formato yyyy-MM-dd.", data)
+		erro = errorutil.Erro{Titulo: "Data Vencimento Inválida", Mensagem: msg, Status: 400}
+		log.Println(erro.Mensagem)
+		return int16(0), erro
 	}
 
 	dataBase, _ := time.Parse(formatDate, "1997-10-07")
 
 	if dataVencimento.Before(dataBase) {
-		log.Println(fmt.Sprintf("Data %v é inválida pois é inferior a data base 1997-10-07.", data))
-		return int16(0)
+		msg := fmt.Sprintf("Data %v é inválida pois é inferior a data base 1997-10-07.", data)
+		erro = errorutil.Erro{Titulo: "Data Vencimento Inválida", Mensagem: msg, Status: 400}
+		log.Println(erro.Mensagem)
+		return int16(0), erro
 	}
 
 	dias := dataVencimento.Sub(dataBase).Hours() / 24
 
-	return int16(dias)
+	return int16(dias), erro
 }
 
 // FormatarValorBoleto - formata o valor do boleto preenchendo com zeros a esquerda

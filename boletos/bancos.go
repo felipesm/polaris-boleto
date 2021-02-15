@@ -1,5 +1,7 @@
 package boletos
 
+import errorutil "github.com/polaris-boleto/erro"
+
 // Banco - interface que representa diferentes bancos
 type Banco interface {
 	SetCodigo()
@@ -11,7 +13,7 @@ type Banco interface {
 	SetNossoNumero(nossoNumero string)
 	getDVCodigoBarras(codigoBarras CodigoBarras) string
 	getCampoLivre() string
-	validarDados() Erro
-	GetCodigoBarras() (CodigoBarras, Erro)
-	GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, Erro)
+	validarDados() errorutil.Erro
+	GetCodigoBarras() (CodigoBarras, errorutil.Erro)
+	GetLinhaDigitavel(codigoBarras string) (LinhaDigitavel, errorutil.Erro)
 }

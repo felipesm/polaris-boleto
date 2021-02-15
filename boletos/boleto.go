@@ -6,13 +6,14 @@ import (
 	"strconv"
 	"strings"
 
+	errorutil "github.com/polaris-boleto/erro"
 	"github.com/polaris-boleto/utils"
 )
 
 // InstanciarBoleto - retorna a instância de um boleto
-func InstanciarBoleto(codigo string) (Banco, Erro) {
+func InstanciarBoleto(codigo string) (Banco, errorutil.Erro) {
 
-	var erro Erro
+	var erro errorutil.Erro
 
 	switch {
 	case codigo == "237":
@@ -20,14 +21,19 @@ func InstanciarBoleto(codigo string) (Banco, Erro) {
 	case codigo == "033":
 		return &Santander{}, erro
 	default:
-		erro = codigoBancoInvalido(codigo)
+		erro = errorutil.CodigoBancoInvalido(codigo)
 		log.Println(erro.Mensagem)
 		return nil, erro
 	}
 }
 
 func getFatorVencimento(dataVencimento string, zerarVencimento bool) string {
-	fatorVencimento := utils.CalcularFatorVencimento(dataVencimento, zerarVencimento)
+	fatorVencimento, erro := utils.CalcularFatorVencimento(dataVencimento, zerarVencimento)
+
+	if erro.Status != 0 {
+		return "0"
+	}
+
 	return fmt.Sprintf("%04d", fatorVencimento)
 }
 
