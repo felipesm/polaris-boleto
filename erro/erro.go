@@ -42,7 +42,7 @@ func CodigoBeneficiarioInvalido(codigoBeneficiario string, tamanho int8) Erro {
 // NossoNumeroInvalido - erro para nosso número inválido
 func NossoNumeroInvalido(nossoNumero string, tamanho int8) Erro {
 	msg := fmt.Sprintf("O nosso número %s é inválido, pois ele deve possuir no máximo %d dígitos.", nossoNumero, tamanho)
-	return Erro{Titulo: "Código Beneficiário Inválido", Mensagem: msg, Status: 400}
+	return Erro{Titulo: "Nosso Número Inválido", Mensagem: msg, Status: 400}
 }
 
 // CodigoBarrasInvalido - erro para código barras inválido
