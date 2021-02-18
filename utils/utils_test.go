@@ -169,6 +169,37 @@ func TestFormatarNossoNumeroMaior(t *testing.T) {
 	}
 }
 
+func TestCalcularBaseCodigoBarras(t *testing.T) {
+	t.Parallel()
+
+	valorSucesso := 72
+	codigo := "701483"
+	min := 2
+	max := 5
+
+	valorRetorno := CalcularBaseCodigoBarras(codigo, min, max)
+
+	if valorSucesso != valorRetorno {
+		t.Errorf(erroPadrao, valorSucesso, valorRetorno)
+	}
+}
+
+func TestCalcularBaseLinhaDigitavel(t *testing.T) {
+	t.Parallel()
+
+	valorSucesso := 76
+	codigo := "287394198269"
+	min := 1
+	max := 2
+	somarAcima := true
+
+	valorRetorno := CalcularBaseLinhaDigitavel(codigo, min, max, somarAcima)
+
+	if valorSucesso != valorRetorno {
+		t.Errorf(erroPadrao, valorSucesso, valorRetorno)
+	}
+}
+
 /*
 	funcao ->		(valorSubtrair - (valor % mod))
 
