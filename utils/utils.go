@@ -62,6 +62,10 @@ func FormatarValorBoleto(valor float64, tamanho int, zerarValor bool) string {
 // FormatarNossoNumero - formata o nosso número preenchendo com zeros a esquerda
 func FormatarNossoNumero(nossoNumero string, tamanho int) string {
 
+	if _, err := strconv.Atoi(nossoNumero); err != nil {
+		return ""
+	}
+
 	if len(nossoNumero) > tamanho {
 		return nossoNumero
 	}

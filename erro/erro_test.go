@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-const erroPadrao = "Valor Esperado %v - Valor recebido foi %v."
+const erroPadrao = "Valor esperado -> %v - Valor recebido -> %v."
 
 func TestCodigoBancoInvalido(t *testing.T) {
 	t.Parallel()
