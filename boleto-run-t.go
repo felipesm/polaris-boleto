@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/polaris-boleto/boletos"
-	errorutil "github.com/polaris-boleto/erro"
+	"github.com/felipesm/polaris-boleto/boletos"
+	errorutil "github.com/felipesm/polaris-boleto/erro"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 
 	codBanco = "033"
 	ag = 3381
-	carteira = 26
+	carteira = 263
 	dataVenc = "1997-10-09"
 	valor = 1248.79
 	nossoNumero = "30503154617"

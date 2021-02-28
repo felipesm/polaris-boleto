@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	errorutil "github.com/polaris-boleto/erro"
+	errorutil "github.com/felipesm/polaris-boleto/erro"
 )
 
 const formatDate = "2006-01-02"

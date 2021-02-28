@@ -1,6 +1,6 @@
 package boletos
 
-import errorutil "github.com/polaris-boleto/erro"
+import errorutil "github.com/felipesm/polaris-boleto/erro"
 
 // Banco - interface que representa diferentes bancos
 type Banco interface {

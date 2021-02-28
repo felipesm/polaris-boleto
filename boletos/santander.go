@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	errorutil "github.com/polaris-boleto/erro"
+	errorutil "github.com/felipesm/polaris-boleto/erro"
 )
 
 // Santander - estrutura para representar o boleto Santander

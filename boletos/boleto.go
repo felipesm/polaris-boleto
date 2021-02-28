@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	errorutil "github.com/polaris-boleto/erro"
-	"github.com/polaris-boleto/utils"
+	errorutil "github.com/felipesm/polaris-boleto/erro"
+	"github.com/felipesm/polaris-boleto/utils"
 )
 
 // InstanciarBoleto - retorna a instância de um boleto
